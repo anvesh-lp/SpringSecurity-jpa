@@ -3,16 +3,23 @@ package com.anvesh.springsecurityjpa.jwts;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+
+@Service
 public class JwtUtils {
 
-    private final String SECRET_KEY = "SecretKeySecretKeySecretKeySecretKeySecretKeySecretKey" +
-            "SecretKeySecretKeySecretKeySecretKeySecretKeySecretKeySecretKeySecretKeySecretKey";
+    private final String SECRET_KEY = "SecretKeySecretKeySecretKeySecretKeySecr" +
+            "etKeySecretKeySecretKeySecretKeySecretKeySecret" +
+            "KeySecretKeySecretKeySecretKeySecretKeySecretKey";
 
+    //    TODO validate the already existing  tokens
+//    Todo check attempts
+//    Todo add jwt filters for authorization
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, userDetails.getUsername());
