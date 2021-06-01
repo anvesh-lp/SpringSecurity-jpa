@@ -3,6 +3,7 @@ package com.anvesh.springsecurityjpa.controllers;
 
 import com.anvesh.springsecurityjpa.model.User;
 import com.anvesh.springsecurityjpa.services.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,8 +21,11 @@ public class ManageUser {
 
     private final UserService userrepository;
 
-    public ManageUser(UserService userDetails) {
+    private final PasswordEncoder encoder;
+
+    public ManageUser(UserService userDetails, PasswordEncoder encoder) {
         this.userrepository = userDetails;
+        this.encoder = encoder;
     }
 
 
@@ -44,6 +48,11 @@ public class ManageUser {
                 result.addError(new FieldError("user", "username", "User already exists " + newUser.getUsername()));
             return "/registration";
         }
+//        TODO save user to datbase
+        newUser.setActive(true);
+        newUser.setRoles("ROLE_USER");
+        newUser.setPassword(encoder.encode(newUser.getPassword()));
+        userrepository.saveUSer(newUser);
         System.out.println(newUser.getUsername());
         System.out.println(newUser.getPassword());
         return "redirect:/login";

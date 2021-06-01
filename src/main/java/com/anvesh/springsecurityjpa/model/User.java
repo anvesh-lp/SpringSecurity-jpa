@@ -21,8 +21,7 @@ public class User {
 
     private String lastname;
 
-
-    @Size(min = 5, max = 15, message = "password should be greater than 5 less than 15")
+    @Size(min = 5, message = "password should be greater than 5 less than 15")
     @NotNull(message = "Password Cannot be empty")
     private String password;
     private boolean active;

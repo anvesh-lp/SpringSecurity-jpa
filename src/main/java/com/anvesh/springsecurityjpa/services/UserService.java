@@ -7,4 +7,6 @@ public interface UserService {
     User findByUsername(String s);
 
     Boolean userAlreadyExists(String s);
+
+    User saveUSer(User s);
 }
