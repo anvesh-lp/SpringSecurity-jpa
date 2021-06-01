@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
@@ -6,24 +6,42 @@
     <meta content="" name="author">
     <title>Please sign in</title>
 
-    <link href="stylesheets/register.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
 </head>
 <body>
 <div class="container">
-    <form action="/action_page.php">
+    <form action="#" method="post" th:action="@{/registration}" th:object="${user}">
         <div class="container">
             <h1>Register</h1>
             <p>Please fill in this form to create an account.</p>
+            <div th:if="${#fields.hasErrors('*')}">
+                <p class="error">PLease correct below errors</p>
+            </div>
             <hr>
+            <label for="fname"><b>First Name</b></label>
+            <input id="fname" name="firstname" placeholder="Enter FirstName" required th:value="${user.firstname}"
+                   type="text">
+            <label for="lname"><b>Last Name</b></label>
+            <input id="lname" name="lastname" placeholder="Enter LastName" required th:value="${user.lastname}"
+                   type="text">
 
             <label for="email"><b>UserName</b></label>
-            <input id="email" name="email" placeholder="Enter UserName" required type="text">
+            <input id="email" name="username" placeholder="Enter UserName" required type="text">
+            <span th:if="${#fields.hasErrors('username')}">
+                <ul>
+                    <li class="error" th:each="err: ${#fields.errors('username')}" th:text="${err}"></li>
+                </ul>
+            </span>
 
             <label for="psw"><b>Password</b></label>
-            <input id="psw" name="psw" placeholder="Enter Password" required type="password">
+            <input id="psw" name="password" placeholder="Enter Password" required th:errorclass="is-invalid"
+                   type="password">
+            <span th:if="${#fields.hasErrors('password')}">
+                <ul>
+                    <li class="error" th:each="err: ${#fields.errors('password')}" th:text="${err}"></li>
+                </ul>
+            </span>
 
-            <label for="psw-repeat"><b>Repeat Password</b></label>
-            <input id="psw-repeat" name="psw-repeat" placeholder="Repeat Password" required type="password">
             <hr>
             <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
 

@@ -1,29 +1,37 @@
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <meta content="" name="description">
     <meta content="" name="author">
     <title>Please sign in</title>
-    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" rel="stylesheet">
-    <link crossorigin="anonymous" href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
 </head>
 <body>
 <div class="container">
-    <form action="/login" class="form-signin" method="post">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <p>
-            <label class="sr-only" for="username">Username</label>
-            <input autofocus="" class="form-control" id="username" name="username" placeholder="Username" required=""
-                   type="text">
-        </p>
-        <p>
-            <label class="sr-only" for="password">Password</label>
-            <input class="form-control" id="password" name="password" placeholder="Password" required=""
-                   type="password">
-        </p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <h2>Login Form</h2>
+    <form class="form-signin" method="post" th:action="@{/login}">
+        <!-- <div class="imgcontainer">
+             <img src="img_avatar2.png" alt="Avatar" class="avatar">
+         </div>-->
+
+        <div class="container">
+            <label for="uname"><b>Username</b></label>
+            <input id="uname" name="username" placeholder="Enter Username" required type="text">
+
+            <label for="psw"><b>Password</b></label>
+            <input id="psw" name="password" placeholder="Enter Password" required type="password">
+
+            <button type="submit">Login</button>
+            <label>
+                <input checked="checked" name="remember-me" type="checkbox"> Remember me
+            </label>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+            <button class="cancelbtn" type="button">Cancel</button>
+            <span class="psw">New User <a href="/registration">Register?</a></span>
+        </div>
     </form>
 </div>
 <object data-extension-version="0.5.0.109" data-supports-flavor-configuration="true" id="__symantecPKIClientMessenger"

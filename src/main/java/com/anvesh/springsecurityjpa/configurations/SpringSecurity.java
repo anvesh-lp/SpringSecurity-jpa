@@ -41,7 +41,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .headers().frameOptions().sameOrigin()
                 .and()
-                .formLogin();
+                .formLogin()
+                .loginPage("/login").permitAll();
+
     }
 
     @Override
