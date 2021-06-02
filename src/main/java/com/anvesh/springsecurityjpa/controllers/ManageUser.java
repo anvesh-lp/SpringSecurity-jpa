@@ -48,9 +48,7 @@ public class ManageUser {
                 result.addError(new FieldError("user", "username", "User already exists " + newUser.getUsername()));
             return "/registration";
         }
-//        TODO save user to datbase
         newUser.setActive(true);
-        newUser.setRoles("ROLE_USER");
         newUser.setPassword(encoder.encode(newUser.getPassword()));
         userrepository.saveUSer(newUser);
         System.out.println(newUser.getUsername());

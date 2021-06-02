@@ -11,6 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import static com.anvesh.springsecurityjpa.roles.UserRoles.ADMIN;
+import static com.anvesh.springsecurityjpa.roles.UserRoles.USER;
 
 @Configuration
 @EnableWebSecurity
@@ -19,11 +25,14 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 
     private final UserDetailProvider userDetailsService;
 
-    public SpringSecurity(UserDetailProvider userDetailsService) {
+    private final AuthenticationSuccessHandler successHandler;
+
+    public SpringSecurity(UserDetailProvider userDetailsService, AuthenticationSuccessHandler successHandler) {
         this.userDetailsService = userDetailsService;
+        this.successHandler = successHandler;
     }
 
-
+    // TO provide user details for authenticating with saved details
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
@@ -34,8 +43,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/admin").hasRole(ADMIN.name())
+                .antMatchers("/user").hasAnyRole(USER.name())
                 .antMatchers("/").permitAll()
                 .antMatchers("/authenticate").permitAll()
                 .and()
@@ -43,9 +52,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/user", true);
-        ;
-
+                .successHandler(successHandler);
     }
 
     @Override
@@ -57,6 +64,12 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
+    }
+
+
+    @Bean
+    public RedirectStrategy getRedirectStrategy() {
+        return new DefaultRedirectStrategy();
     }
 
 

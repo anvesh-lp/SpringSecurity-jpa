@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import static com.anvesh.springsecurityjpa.roles.UserRoles.USER;
+
 @Entity
 @Table(name = "User")
 @Data
@@ -25,6 +27,8 @@ public class User {
     @NotNull(message = "Password Cannot be empty")
     private String password;
     private boolean active;
-    private String roles;
+
+    @Column(columnDefinition = "varchar(255) default 'ROLE_USER'")
+    private String roles = "ROLE_" + USER.name();
 
 }
